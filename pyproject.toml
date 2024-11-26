@@ -1,0 +1,126 @@
+[build-system]
+requires = ["setuptools>=66.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[project]
+name = "load_testing_gui"
+dynamic = ["version"]
+description = "Load testing GUI"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "aiohttp[speedups]==3.11.7",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-asyncio",
+]
+types = [
+    "mypy",
+]
+lint = [
+    "load_testing_gui[types]",
+    "ruff",
+]
+lint_extra = [
+    "bandit",
+    "semgrep",
+    "codespell",
+]
+devmin = ["load_testing_gui[test,lint]"]
+dev = ["load_testing_gui[test,lint,lint_extra]"]
+
+[project.urls]
+Homepage = "https://github.com/Maclovi/load_testing_gui"
+Documentation = "https://github.com/Maclovi/load_testing_gui/README.md"
+Repository = "https://github.com/Maclovi/load_testing_gui"
+Issues = "https://github.com/Maclovi/load_testing_gui/issues"
+
+
+[tool.pytest.ini_options]
+xfail_strict = true
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+
+[tool.mypy]
+exclude = [".venv"]
+python_version = "3.10"
+strict = true
+pretty = true
+
+no_implicit_optional = true
+check_untyped_defs = true
+show_error_codes = true
+implicit_reexport = true
+namespace_packages = true
+ignore_missing_imports = true
+
+warn_unused_ignores = false
+warn_return_any = true
+warn_redundant_casts = true
+
+allow_untyped_calls = true
+allow_subclassing_any = true
+allow_untyped_decorators = true
+
+disallow_incomplete_defs = true
+disallow_any_unimported = false
+
+[tool.ruff]
+src = ["src"]
+include = ["src/**.py", "tests/**.py"]
+target-version = "py310"
+line-length = 79
+fix = true
+
+[tool.ruff.lint]
+select = [
+    "I",     # isort                  https://docs.astral.sh/ruff/rules/#isort-i
+    "E",     # pycodestyle errors     https://docs.astral.sh/ruff/rules/#error-e
+    "W",     # pycodestyle warnings   https://docs.astral.sh/ruff/rules/#warning-w
+    "F",     # pyflakes               https://docs.astral.sh/ruff/rules/#pyflakes-f
+    "S",     # flake8-bandit          https://docs.astral.sh/ruff/rules/#flake8-bandit-s
+    "B",     # flake8-bugbear         https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
+    "Q",     # flake8-quotes          https://docs.astral.sh/ruff/rules/#flake8-quotes-q
+    "N",     # pep8-naming            https://docs.astral.sh/ruff/rules/#pep8-naming-n
+    "UP",    # pyupgrade              https://docs.astral.sh/ruff/rules/#pyupgrade-up
+    "C4",    # flake8-comprehensions  https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
+    "PT",    # flake8-pytest-style    https://docs.astral.sh/ruff/rules/#flake8-pytest-style-pt
+    "PTH",   # flake8-use-pathlib     https://docs.astral.sh/ruff/rules/#flake8-use-pathlib-pth
+    "TCH",   # flake8-type-checking   https://docs.astral.sh/ruff/rules/#flake8-type-checking-tch
+    "C90",   # mccabe                 https://docs.astral.sh/ruff/rules/#mccabe-c90
+    "T20",   # flake8-print           https://docs.astral.sh/ruff/rules/#flake8-print-t20
+    "SIM",   # flake8-simplify        https://docs.astral.sh/ruff/rules/#flake8-simplify-sim
+    "RUF",   # Ruff-specific rules    https://docs.astral.sh/ruff/rules/#ruff-specific-rules-ruf
+    "PERF",  # Perflint               https://docs.astral.sh/ruff/rules/#perflint-perf
+    "ASYNC", # flake8-async           https://docs.astral.sh/ruff/rules/#flake8-async-async
+]
+ignore = [
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+    "W191",  # indentation contains tabs
+]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
