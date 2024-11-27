@@ -4,20 +4,17 @@
 ## Installation
 ### Requirements
 - tk - `sudo pacman -S tk`
-- Docker & Docker-compose latest - `sudo pacman -S docker docker-compose`
 ### Cloning the Repository
-
 Clone the repository to your local machine:
-
 ```bash
-git https://github.com/Maclovi/load_testing_gui
+git clone https://github.com/Maclovi/load_testing_gui
 cd load_testing_gui
 ```
 ## How to run
-
-Just:
 ```bash
-pip3 install .
+python3 -m venv .venv
+source .venv/bin/activate
+pip install .
 run
 ```
 ## Author
