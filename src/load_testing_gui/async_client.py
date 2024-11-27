@@ -1,29 +1,22 @@
 import asyncio
-from abc import abstractmethod
 from asyncio import AbstractEventLoop
 from collections.abc import Callable
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING
 
 from aiohttp import ClientError, ClientSession
+
+from load_testing_gui.base import StressClient
 
 if TYPE_CHECKING:
     from concurrent.futures import Future
 
 
-class StressClient(Protocol):
-    @abstractmethod
-    def start(self) -> None: ...
-
-    @abstractmethod
-    def cancel(self) -> None: ...
-
-
 class AsyncStressClient(StressClient):
     __slots__ = (
-        "_loop",
-        "_url",
-        "_total_requests",
-        "_callback",
+        "loop",
+        "url",
+        "total_requests",
+        "callback",
         "_completed_requests",
         "_load_test_future",
         "_refresh_rate",
@@ -37,10 +30,10 @@ class AsyncStressClient(StressClient):
         total_requests: int,
         callback: Callable[[int, int], None],
     ) -> None:
-        self._loop = loop
-        self._url = url
-        self._total_requests = total_requests
-        self._callback = callback
+        self.loop = loop
+        self.url = url
+        self.total_requests = total_requests
+        self.callback = callback
 
         self._completed_requests = 0
         self._load_test_future: Future[None] | None = None
@@ -48,20 +41,20 @@ class AsyncStressClient(StressClient):
 
     def start(self) -> None:
         future = asyncio.run_coroutine_threadsafe(
-            self._make_requests(), self._loop
+            self._make_requests(), self.loop
         )
         self._load_test_future = future
 
     def cancel(self) -> None:
         if self._load_test_future:
-            self._loop.call_soon_threadsafe(self._load_test_future.cancel)
+            self.loop.call_soon_threadsafe(self._load_test_future.cancel)
 
     async def _make_requests(self) -> None:
-        async with ClientSession(loop=self._loop) as session:
-            responses = [
-                self._get_url(session, self._url)
-                for _ in range(self._total_requests)
-            ]
+        async with ClientSession(loop=self.loop) as session:
+            responses = (
+                self._get_url(session, self.url)
+                for _ in range(self.total_requests)
+            )
             await asyncio.gather(*responses)
 
     async def _get_url(self, session: ClientSession, url: str) -> None:
@@ -72,10 +65,6 @@ class AsyncStressClient(StressClient):
         self._completed_requests += 1
         if (
             self._completed_requests % self._refresh_rate == 0
-            or self._completed_requests == self._total_requests
+            or self._completed_requests == self.total_requests
         ):
-            self._callback(self._completed_requests, self._total_requests)
-
-
-class SyncStressClient:
-    pass
+            self.callback(self._completed_requests, self.total_requests)
