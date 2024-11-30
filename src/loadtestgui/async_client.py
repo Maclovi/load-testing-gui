@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 from aiohttp import ClientError, ClientSession
 
-from load_testing_gui.base import StressClient
+from loadtestgui.base import StressClient
 
 if TYPE_CHECKING:
     from concurrent.futures import Future

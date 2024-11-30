@@ -6,10 +6,10 @@ build-backend = "setuptools.build_meta"
 package-dir = { "" = "src" }
 
 [project.scripts]
-run = "load_testing_gui.__main__:main"
+run = "loadtestgui.__main__:main"
 
 [project]
-name = "load_testing_gui"
+name = "loadtestgui"
 dynamic = ["version"]
 description = "Load testing GUI"
 readme = "README.md"
@@ -32,7 +32,7 @@ types = [
     "mypy",
 ]
 lint = [
-    "load_testing_gui[types]",
+    "loadtestgui[types]",
     "ruff",
 ]
 lint_extra = [
@@ -40,14 +40,14 @@ lint_extra = [
     "semgrep",
     "codespell",
 ]
-devmin = ["load_testing_gui[test,lint]"]
-dev = ["load_testing_gui[test,lint,lint_extra]"]
+devmin = ["loadtestgui[test,lint]"]
+dev = ["loadtestgui[test,lint,lint_extra]"]
 
 [project.urls]
-Homepage = "https://github.com/Maclovi/load_testing_gui"
-Documentation = "https://github.com/Maclovi/load_testing_gui/README.md"
-Repository = "https://github.com/Maclovi/load_testing_gui"
-Issues = "https://github.com/Maclovi/load_testing_gui/issues"
+Homepage = "https://github.com/Maclovi/load-test-gui"
+Documentation = "https://github.com/Maclovi/load-test-gui/README.md"
+Repository = "https://github.com/Maclovi/load-test-gui"
+Issues = "https://github.com/Maclovi/load-test-gui/issues"
 
 
 [tool.pytest.ini_options]

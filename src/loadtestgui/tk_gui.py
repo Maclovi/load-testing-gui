@@ -5,7 +5,7 @@ from queue import Queue
 from tkinter import ttk
 from typing import Any
 
-from load_testing_gui.base import StressClient
+from loadtestgui.base import StressClient
 
 
 class LoadTester(tk.Tk):

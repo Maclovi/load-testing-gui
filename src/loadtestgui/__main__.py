@@ -2,8 +2,8 @@ import asyncio
 from asyncio import AbstractEventLoop
 from threading import Thread
 
-from load_testing_gui.async_client import AsyncStressClient as StressClient
-from load_testing_gui.tk_gui import LoadTester
+from loadtestgui.async_client import AsyncStressClient as StressClient
+from loadtestgui.tk_gui import LoadTester
 
 
 class ThreadedEventLoop(Thread):
